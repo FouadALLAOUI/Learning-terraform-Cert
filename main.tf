@@ -70,14 +70,6 @@ module "blog_alb" {
       protocol    = "HTTP"
       port        = 80
       target_type = "instance"
-      health_check = {
-        path                = "/"
-        interval            = 30
-        timeout             = 5
-        healthy_threshold   = 2
-        unhealthy_threshold = 2
-        matcher             = "200-299"
-      }
     }
   ]
   
