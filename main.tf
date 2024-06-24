@@ -52,8 +52,7 @@ resource "aws_instance" "blog" {
 # Create Application Load Balancer
 module "alb" {
   source = "terraform-aws-modules/alb/aws"
-  version = "7.4.0"
-
+  
   name    = "blog-alb"
   vpc_id  = module.blog_vpc.vpc_id
   subnets = module.blog_vpc.public_subnets
