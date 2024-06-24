@@ -47,7 +47,7 @@ module "autoscaling" {
   
   vpc_zone_identifier = module.blog_vpc.public_subnets
   target_group_arns   = module.blog_alb.target_group_arns
-  security_groups = [ module.blog_sg.security_group_id ]
+  security_groups     = [ module.blog_sg.security_group_id ]
 
   image_id               = data.aws_ami.app_ami.id
   instance_type          = var.instance_type
@@ -72,26 +72,33 @@ module "blog_alb" {
       target_type = "instance"
     }
   ]
-  
-  listeners = [
-    {
+
+  #target_groups = {
+  #  ex-instance = {
+  #    name_prefix      = "h1"
+  #    protocol         = "HTTP"
+  #    port             = 80
+  #    target_type      = "instance"
+  #  }
+  #}
+
+  listeners = {
+    ex-http-https-redirect = {
       port     = 80
       protocol = "HTTP"
-      default_action = {
-        type = "redirect"
-        redirect = {
-          port        = "443"
-          protocol    = "HTTPS"
-          status_code = "HTTP_301"
-        }
+      redirect = {
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
       }
     }
-  ]
+  }
 
   tags = {
     Environment = "dev"
   }
 }
+
 
 module "blog_sg" {
   source  = "terraform-aws-modules/security-group/aws"
