@@ -36,6 +36,9 @@ module "blog_vpc" {
   }
 }
 
+output "target_group_arns" {
+  value = module.blog_alb.target_group_arns
+}
 
 module "autoscaling" {
   source  = "terraform-aws-modules/autoscaling/aws"
