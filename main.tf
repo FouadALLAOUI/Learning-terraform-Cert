@@ -52,7 +52,7 @@ resource "aws_instance" "blog" {
 # Create Application Load Balancer
 module "alb" {
   source = "terraform-aws-modules/alb/aws"
-  
+
   name    = "blog-alb"
   vpc_id  = module.blog_vpc.vpc_id
   subnets = module.blog_vpc.public_subnets
@@ -65,15 +65,17 @@ module "alb" {
       protocol    = "HTTP"
       port        = 80
       target_type = "instance"
-      targets = {
-        my_target = {
-          target_id = aws_instance.blog.id
-          port      = 80
-        }
+      health_check = {
+        path                = "/"
+        interval            = 30
+        timeout             = 5
+        healthy_threshold   = 2
+        unhealthy_threshold = 2
+        matcher             = "200-299"
       }
     }
   ]
-
+  
   listeners = {
     ex-http-https-redirect = {
       port     = 80
