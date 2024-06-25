@@ -22,6 +22,7 @@ data "aws_vpc" "default" {
 
 module "blog_vpc" {
   source = "terraform-aws-modules/vpc/aws"
+  version = "6.5.2"
 
   name = "dev"
   cidr = "10.0.0.0/16"
@@ -56,7 +57,6 @@ module "autoscaling" {
 # Create Application Load Balancer
 module "blog_alb" {
   source = "terraform-aws-modules/alb/aws"
-  version = "~> 6.0"
 
   name    = "blog-alb"
   vpc_id  = module.blog_vpc.vpc_id
