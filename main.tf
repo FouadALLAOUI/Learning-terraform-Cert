@@ -22,7 +22,6 @@ data "aws_vpc" "default" {
 
 module "blog_vpc" {
   source = "terraform-aws-modules/vpc/aws"
-  version = "6.5.2"
 
   name = "dev"
   cidr = "10.0.0.0/16"
@@ -39,7 +38,7 @@ module "blog_vpc" {
 
 module "autoscaling" {
   source  = "terraform-aws-modules/autoscaling/aws"
-  version = "7.6.1"
+  version = "6.5.2"
   
   name = "blog"
   min_size = 1
